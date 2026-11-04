@@ -1,0 +1,10 @@
+# Pin exact versions at the end of the project: pip freeze > requirements.lock.txt
+torch>=2.3
+torchvision>=0.18
+numpy
+pandas
+scikit-learn
+pillow
+requests
+matplotlib
+streamlit

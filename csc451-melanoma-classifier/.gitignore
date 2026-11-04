@@ -1,0 +1,25 @@
+# Image data stays in the private Drive folder, never in this public repo
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.zip
+data/raw/
+data/processed/
+*.zip
+
+# Model weights and checkpoints (use a GitHub Release or Drive instead)
+*.pt
+*.pth
+checkpoints/
+
+# Secrets
+.env
+*.key
+.streamlit/secrets.toml
+
+# Python / notebooks
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
