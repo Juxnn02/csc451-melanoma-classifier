@@ -1,0 +1,175 @@
+{
+  "purpose": "Local engineering pilot with instructor source approval and team label review pending",
+  "class_names": [
+    "Melanoma",
+    "Basal cell carcinoma",
+    "Squamous cell carcinoma",
+    "Benign melanocytic nevus",
+    "Benign keratosis"
+  ],
+  "split_counts": {
+    "train": 160,
+    "val": 50,
+    "test": 40
+  },
+  "per_class_counts_by_split": {
+    "train": 32,
+    "val": 10,
+    "test": 8
+  },
+  "distinct_patients": 250,
+  "distinct_lesions": 250,
+  "selection_seed": 451,
+  "candidate_licenses": {
+    "CC-BY": 176,
+    "CC-0": 74
+  },
+  "source_attributions": {
+    "Hospital Italiano de Buenos Aires": 115,
+    "Memorial Sloan Kettering Cancer Center": 72,
+    "The University of Queensland Diamantina Institute, The University of Queensland, Dermatology Research Centre": 3,
+    "Anonymous": 55,
+    "Sydney Melanoma Diagnostic Center at Royal Prince Alfred Hospital": 4,
+    "Department of Dermatology, University of Athens, Andreas Syggros Hospital of Skin and Venereal Diseases, Alexander Stratigos, Konstantinos Liopyris": 1
+  },
+  "source_counts_by_class": {
+    "Squamous cell carcinoma": {
+      "Hospital Italiano de Buenos Aires": 48,
+      "Memorial Sloan Kettering Cancer Center": 2
+    },
+    "Benign keratosis": {
+      "Memorial Sloan Kettering Cancer Center": 26,
+      "The University of Queensland Diamantina Institute, The University of Queensland, Dermatology Research Centre": 2,
+      "Hospital Italiano de Buenos Aires": 6,
+      "Anonymous": 16
+    },
+    "Basal cell carcinoma": {
+      "Hospital Italiano de Buenos Aires": 38,
+      "Anonymous": 9,
+      "Memorial Sloan Kettering Cancer Center": 3
+    },
+    "Melanoma": {
+      "Sydney Melanoma Diagnostic Center at Royal Prince Alfred Hospital": 1,
+      "Hospital Italiano de Buenos Aires": 19,
+      "Memorial Sloan Kettering Cancer Center": 11,
+      "Anonymous": 17,
+      "Department of Dermatology, University of Athens, Andreas Syggros Hospital of Skin and Venereal Diseases, Alexander Stratigos, Konstantinos Liopyris": 1,
+      "The University of Queensland Diamantina Institute, The University of Queensland, Dermatology Research Centre": 1
+    },
+    "Benign melanocytic nevus": {
+      "Memorial Sloan Kettering Cancer Center": 30,
+      "Anonymous": 13,
+      "Hospital Italiano de Buenos Aires": 4,
+      "Sydney Melanoma Diagnostic Center at Royal Prince Alfred Hospital": 3
+    }
+  },
+  "training": {
+    "architecture": "ResNet-18 with ImageNet initialization",
+    "trainable_stages": [
+      "layer4",
+      "fc"
+    ],
+    "device": "cpu",
+    "seed": 451,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "loss": "cross-entropy",
+    "fine_tuned_parameters": 8396293,
+    "total_parameters": 11179077,
+    "verified_frozen_tensors": 90,
+    "epochs": [
+      {
+        "epoch": 1,
+        "train_loss": 1.6500710248947144,
+        "val_loss": 1.4059578132629396,
+        "accuracy": 0.36,
+        "macro_f1": 0.3566666666666667,
+        "melanoma_recall": 0.5
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.712002444267273,
+        "val_loss": 1.3050720071792603,
+        "accuracy": 0.54,
+        "macro_f1": 0.5246642246642247,
+        "melanoma_recall": 0.6
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.4143019109964371,
+        "val_loss": 1.2543322467803955,
+        "accuracy": 0.44,
+        "macro_f1": 0.43866913660964,
+        "melanoma_recall": 0.5
+      }
+    ],
+    "baselines": {
+      "majority_class": {
+        "accuracy": 0.2,
+        "macro_f1": 0.06666666666666667,
+        "melanoma_recall": 0.0
+      },
+      "logistic_regression": {
+        "accuracy": 0.4,
+        "macro_f1": 0.4136015037593985,
+        "melanoma_recall": 0.2
+      }
+    },
+    "best_epoch": 2
+  },
+  "holdout": {
+    "accuracy": 0.55,
+    "macro_f1": 0.5057452351569999,
+    "melanoma_recall": 0.75,
+    "loss": 1.133828830718994,
+    "correct_top1": 22,
+    "correct_top3": 36,
+    "top3_accuracy": 0.9,
+    "confusion_matrix_actual_rows": [
+      [
+        6,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        5,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        8,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        5,
+        1
+      ],
+      [
+        1,
+        2,
+        2,
+        1,
+        2
+      ]
+    ]
+  },
+  "checkpoint": {
+    "sha256": "a0903767aa550d24b9cf2602e8b551edc9c9440991628f0af75a7eb3cc5a67df",
+    "validation_metrics": {
+      "accuracy": 0.54,
+      "macro_f1": 0.5246642246642247,
+      "melanoma_recall": 0.6
+    }
+  }
+}

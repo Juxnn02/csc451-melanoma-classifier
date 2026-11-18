@@ -30,11 +30,9 @@ Ordinary phone photos are outside the initial scope.
 Actinic keratosis and mixed or uncertain diagnoses are excluded, not relabeled as benign.
 
 ## Data
-Full details, the cleaning log and the label-mapping rules are in [`data/README.md`](data/README.md).
+We collected 4,000 candidate dermoscopic images from the [ISIC Archive](https://www.isic-archive.com/), 800 per class, including the 20-image pilot. The source records supply the clinical diagnoses. Instructor approval, team review, and the final class counts are pending.
 
-- **Source:** individually selected [ISIC Archive] dermoscopic images only.
-- **Raw samples:** 20 raw samples (4 per class) are in a private Google Drive folder: https://drive.google.com/drive/folders/1CiY8FonLVLWGpRWi8mduOkxCdu79h6dy?usp=drive_link.
-  Images are **not** committed to this public repo.
+The [data guide](data/README.md) records selection counts, diagnosis mapping, exclusions, and the procedure to restore the collection from the private manifest. Keep photos, patient linkage, private manifests, and checkpoints in team-only storage. The original samples are listed in the [team Drive folder](https://drive.google.com/drive/folders/1CiY8FonLVLWGpRWi8mduOkxCdu79h6dy?usp=drive_link).
 
 ## Model
 - **Baselines:** (1) majority class; (2) logistic regression on 32×32 RGB pixels, scaling fitted on training data only.
@@ -43,10 +41,8 @@ Full details, the cleaning log and the label-mapping rules are in [`data/README.
 - **Why:** small enough for free Colab, strong with a few hundred images per class (transfer learning).
 
 ## Training setup
-- Free Colab T4 (Kaggle as backup); checkpoints saved to Drive every epoch.
-- Batch size 32, AdamW, cross-entropy, up to 10 epochs with validation-based early stopping, mixed precision.
-- **Pilot timing (11/04):** _[paste from `notebooks/00_pilot_timing.ipynb`]_
-
+- The November 17 engineering pilot ran in CPU Docker for three epochs using seed 451, batch size 16, AdamW, and learning rate 0.0001. The final ResNet-18 stage and classifier head were fine-tuned.
+- The later class experiment plan uses Colab T4 with mixed precision and saves checkpoints in the team's private storage. The [starter timing notebook](notebooks/00_pilot_timing.ipynb) has no recorded T4 time in this checkout.
 
 ## Experiment log
 One change at a time, picked on the validation set (macro-F1 and melanoma recall).
@@ -57,8 +53,12 @@ One change at a time, picked on the validation set (macro-F1 and melanoma recall
 | R1 | Baseline: logistic regression, 32×32 | | | | — | |
 | R2 | ResNet-18, frozen backbone | lr 1e-4, bs 32 | | | | |
 | R3 | | | | | | |
+| P1 | Engineering pilot, fine-tune layer4 + head | lr 1e-4, bs 16, seed 451 | 0.525 | 60% | 3 | Unrecorded |
 
 ## Results
+
+The [pilot report](docs/pilot-results.md) contains the observed loss history, baseline comparison, and the 40-image patient-disjoint engineering holdout. Epoch 2 achieved 54% validation accuracy versus 40% for logistic regression. The pilot checkpoint scored 55% top-1 accuracy (22/40) on the holdout. These are preliminary engineering results from archive labels while review is pending.
+
 _Test set used once, at the end._
 - Test metrics vs. both baselines: accuracy, per-class precision/recall/F1, macro-F1: _[fill in]_
 - Confusion matrix: _[figure]_
@@ -74,11 +74,15 @@ Known limitations to address: dermoscopic images only; skin-tone coverage in pub
 groups cannot establish equal performance; scores are not personal cancer probabilities.
 
 ## How to run
+
+From the project folder containing `app/`:
+
 ```bash
-pip install -r requirements.txt
-# pilot / data: open notebooks/ in Google Colab with a T4 runtime and Run all
-streamlit run app/app.py   # after training (app not built yet)
+docker build -t csc451-test ./app
+docker run --rm -p 127.0.0.1:8501:8501 csc451-test
 ```
+
+Open [localhost:8501](http://localhost:8501). The [app guide](app/README.md) covers the image uploader, private data and model mounts, pilot reproduction, and tests.
 
 ## Deployed app (optional bonus)
 _[Cloud Run URL]_
@@ -88,4 +92,4 @@ _[Cloud Run URL]_
 Per the course policy, every AI tool and what it was used for:
 - Claude: drafted the repository starter (folder layout, README skeleton, requirements, `.gitignore`) and the pilot
   notebook that pulls the raw samples and times one epoch. The team reviewed, ran and is responsible for all of it.
-- _[add others]_
+- Codex helped collect and validate candidate images, implement and test the Docker app, run the engineering pilot, and document the workflows and observed results.

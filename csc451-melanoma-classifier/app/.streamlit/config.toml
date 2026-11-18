@@ -1,0 +1,18 @@
+[server]
+address = "0.0.0.0"
+port = 8501
+headless = true
+maxUploadSize = 20
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#166C66"
+backgroundColor = "#F8FAF8"
+secondaryBackgroundColor = "#EDF3F0"
+textColor = "#18332F"

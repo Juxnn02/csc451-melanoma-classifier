@@ -1,0 +1,8 @@
+**
+!Dockerfile
+!requirements.txt
+!*.py
+!tests/
+!tests/*.py
+!.streamlit/
+!.streamlit/config.toml
